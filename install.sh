@@ -166,13 +166,16 @@ if [[ -n "${HOMEBREW_ON_MACOS-}" ]]
 then
   UNAME_MACHINE="$(/usr/bin/uname -m)"
 
-  # On macOS, support Apple Silicon only
-  if [[ "${UNAME_MACHINE}" != "arm64" ]]
+  # Apple Silicon installs to /opt/homebrew, Intel to /usr/local (restored from before e078684).
+  if [[ "${UNAME_MACHINE}" == "arm64" ]]
   then
-    abort "Homebrew on macOS is only supported on Apple Silicon processors!"
+    HOMEBREW_PREFIX_DEFAULT="/opt/homebrew"
+  elif [[ "${UNAME_MACHINE}" == "x86_64" ]]
+  then
+    HOMEBREW_PREFIX_DEFAULT="/usr/local"
+  else
+    abort "Homebrew on macOS is only supported on Intel and ARM processors!"
   fi
-
-  HOMEBREW_PREFIX_DEFAULT="/opt/homebrew"
   HOMEBREW_CACHE="${HOME}/Library/Caches/Homebrew"
 
   STAT_PRINTF=("/usr/bin/stat" "-f")
@@ -236,7 +239,7 @@ esac
   [[ "${#HOMEBREW_PREFIX}" -le "${#HOMEBREW_PREFIX_DEFAULT}" ]]
 ) || abort "The Homebrew prefix \"${HOMEBREW_PREFIX}\" is longer than the default prefix \"${HOMEBREW_PREFIX_DEFAULT}\"."
 
-if [[ -n "${HOMEBREW_ON_MACOS-}" ]]
+if [[ -n "${HOMEBREW_ON_MACOS-}" && "${HOMEBREW_PREFIX}" != "/usr/local" ]]
 then
   HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}"
 else
