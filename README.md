@@ -1,9 +1,14 @@
 # Homebrew (un)installer
 
+> **Fork with Intel Mac support.** The official installer stopped supporting Intel Macs in September 2026.
+> This fork's `install.sh` installs on Intel Macs again, into `/usr/local` as before; Apple Silicon still uses `/opt/homebrew`.
+> `brew` itself still comes from the official [Homebrew/brew](https://github.com/Homebrew/brew), so `brew update` works as usual.
+> Intel macOS is an unsupported [Tier 3](https://docs.brew.sh/Support-Tiers#tier-3) setup: no new bottles, so many formulae build from source.
+
 ## Install Homebrew (on macOS or Linux)
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ABDULAHAD118/install/HEAD/install.sh)"
 ```
 
 More installation information and options: <https://docs.brew.sh/Installation>.
@@ -21,7 +26,7 @@ You can set `HOMEBREW_BREW_GIT_REMOTE` and/or `HOMEBREW_CORE_GIT_REMOTE` in your
 ```bash
 export HOMEBREW_BREW_GIT_REMOTE="..."  # put your Git mirror of Homebrew/brew here
 export HOMEBREW_CORE_GIT_REMOTE="..."  # put your Git mirror of Homebrew/homebrew-core here
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ABDULAHAD118/install/HEAD/install.sh)"
 ```
 
 The default Git remote will be used if the corresponding environment variable is unset.
@@ -29,15 +34,15 @@ The default Git remote will be used if the corresponding environment variable is
 If you want to run the Homebrew installer non-interactively without prompting for passwords (e.g. in automation scripts), you can use:
 
 ```bash
-NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ABDULAHAD118/install/HEAD/install.sh)"
 ```
 
-Use `--path` to choose an installation prefix. It must be an absolute path and, after resolving symlinks, no longer than the platform's default: `/opt/homebrew` on macOS or `/home/linuxbrew/.linuxbrew` on Linux. This allows bottles to be relocated into the chosen prefix.
+Use `--path` to choose an installation prefix. It must be an absolute path and, after resolving symlinks, no longer than the platform's default: `/opt/homebrew` on Apple Silicon macOS, `/usr/local` on Intel macOS or `/home/linuxbrew/.linuxbrew` on Linux. This allows bottles to be relocated into the chosen prefix.
 
 For example, to install non-interactively into `/opt/brew`:
 
 ```bash
-NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" -- --path /opt/brew
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ABDULAHAD118/install/HEAD/install.sh)" -- --path /opt/brew
 ```
 
 The installing account does not need administrator membership when the prefix is writable.
